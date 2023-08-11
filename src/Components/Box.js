@@ -1,27 +1,48 @@
-import React, { Component, useState } from "react";
-import styles from "./FormComponent.module.css";
+import React, { useState } from "react";
 
-const Box = () => {
-    const [colors, setColors] = useState([]);
-    // const [width, setWidth] = useState([]);
-    // const [height, setHeight] = useState([]);
+const Box = (props) => {
+    const [ boxes, setBoxes] = useState([]);
+    const [ color, setColor] = useState("");
     
-
+    const onSubmitHandler = (e) => {
+      e.preventDefault();
+  
+      setBoxes(prevBoxes => [...prevBoxes, color]);
+    }
+  
     return (
         <>
-            <form onSubmit={ (e) => e.preventDefault() }>
-                <label htmlFor="color">Color</label>
-                <input type="text" id="color"/>
-                <label htmlFor="width">Width</label>
-                <input type="number" id="width"/>
-                <label htmlFor="color">Height</label>
-                <input type="number" id="height"/>
-                <input value="Add" className="btn" type="button" onClick={(e) => setColors(prevState => [...prevState, e.target.value])} />    
+            <form onSubmit={ onSubmitHandler }>
+            <div>
+                <label htmlFor="firstName">Color</label>
+                <input 
+                type="text" 
+                name="color"
+                onChange={ (e) => setColor(e.target.value) }
+                />
+            </div>
+            <button>Add</button>
             </form>
-            {colors && console.log(colors)}
+            { console.log(boxes) }
+            {
+                boxes.length > 0 && 
+                boxes.map((color, index) => {
+                    {console.log(index, color)}
+                    return (<div key={index} style={{ 
+                        display: "inline-block",
+                        margin: "10px",
+                        height: "50px", 
+                        width: "50px", 
+                        backgroundColor: color
+                        }}>
+                    </div>
+                    );
+                })
+            }
             
         </>
-    )
-}
 
-export default Box;
+    )
+  }
+  
+  export default Box;
